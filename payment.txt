@@ -1,0 +1,5 @@
+PaymentID,BookingID,UserID,TotalFee,AmountPaid,Balance,Status,PaymentDate
+P001,B001,18110,100,100,0,PAID,2026-9-10
+P002,B002,111000,7000,1000,0,PAID,2026-9-12
+P003,B003,117700,3200,1000,2200,Partial,2026-9-12
+C:\Users\user\AppData\Local\Python\pythoncore-3.14-64\python.exe "c:/Users/user/OneDrive/Documents/PYP ASSIGNMENT/accountant.py",B002,111000,7000,6000,1000,Partial,2026-09-7-27
