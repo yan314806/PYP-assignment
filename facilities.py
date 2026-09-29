@@ -3,13 +3,9 @@ status = ""
 print("""
     STAFF LOGIN""")
 
-user = input(
-"""Enter Staff ID (S01, S02, ....): 
-         """).strip()
-
 def menu():
     while True:
-        option = input("""    
+        print("""    
         FACILITIES STAFF MENU:
 
 1.View Room Avaliability & Status
@@ -17,10 +13,9 @@ def menu():
 3.Update Maintenance Status  
 4.Generate Maintenance Summary
 5.Exit / Sign out
+        """)
 
-Please enter your option : 
-        """).strip()
-
+        option = input("Please enter your option : ").strip()
         match option:   
             case '1':
                 view_avaliability_and_status()
@@ -40,36 +35,51 @@ Please enter your option :
 def Maintenance_record():
     status = "Booked"
     roomID = input("Enter RoomID to book for maintenance (eg: R01, R02,...): ").strip()
+    try:
+        with open('Maintenance.txt','r', encoding='utf-8') as f:
+            for line in f:
+                remove_line = line.strip()
+                separate = remove_line.split(",")
+                if separate[1].strip().lower() == roomID.lower().strip():
+                    if separate[5].strip().lower() == "booked" or separate[5].strip().lower() == "ongoing":
+                        print(f"Room {roomID} is unavaliable for now.")
+                        print(f"Please try again later or choose another room.")
+                        return
+    except FileNotFoundError:
+        pass
+    except Exception:
+        print("An error occured. Please try again later.")
+            
     date = input("Enter date : ").strip()
     task = input("Enter the task needed (Clean/Repair/IT Setup):  ").strip().lower()
     task_description = input("Enter details of the task needed: ").strip()
-
-    if task != "clean" and task != "repair" and task != "it setup":
-        print("Invalid task choice. Please choose 1 from the 3")
-        return
 
     if roomID == "" or date == "" or task == "" or task_description == "":
         print("Please enter all values!")
         status = "Failed"
         return
+    
+    if task != "clean" and task != "repair" and task != "it setup":
+            print("Invalid task choice. Please choose 1 from the 3")
+            return
+    
     else:
         print("Logging in progress...")
-
         log = user + "," + roomID + "," + date + "," + task + "," + task_description + "," + status 
-        
-        try:
-            with open('Maintenance.txt','a', encoding='utf-8') as f:
-                f.write(f"{log}\n")
-        except FileNotFoundError:
-            print("Maintenance.txt not found")
-        except PermissionError:
-            print("You do not have access")
-        except Exception:
-            print("Maintenance log failed")
-        else: 
-            print("Sucessfully logged!")
-        finally:
-            print("Returning back to menu...")
+            
+    try:
+        with open('Maintenance.txt','a', encoding='utf-8') as f:
+            f.write(f"{log}\n")
+    except FileNotFoundError:
+        print("Maintenance.txt not found")
+    except PermissionError:
+        print("You do not have access")
+    except Exception:
+        print("Maintenance log failed")
+    else: 
+        print("Sucessfully logged!")
+    finally:
+        print("Returning back to menu...")
 
 def Update_status():
     print("""
@@ -89,17 +99,17 @@ def Update_status():
                     separate = remove_line.split(",")
                     readtxt.append(separate)
 
-            for i in readtxt:
-                if i[1].strip().lower() == find_lower:
-                    if i[0].strip().lower() == user.lower():
-                        new_status= str(input(f"Update your maintenance status for {find} (Booked/Ongoing/Comepleted): ")).strip().lower()
-                        if new_status == 'booked' or new_status == 'ongoing' or new_status == 'completed':
-                            i[5] = new_status
-                            print("Updated sucessfully")
-                        else:
-                            print("Please enter valid status")
-                            return
+        for i in readtxt:
+            if i[1].strip().lower() == find_lower:
+                if i[0].strip().lower() == user.lower():
+                    new_status= str(input(f"Update your maintenance status for {find} (Booked/Ongoing/Completed): ")).strip().lower()
+                    if new_status == 'booked' or new_status == 'ongoing' or new_status == 'completed':
+                        i[5] = new_status
+                        print("Updated sucessfully")
                     else:
+                        print("Please enter valid status")
+                        return
+                else:
                         print("Access denied. This maintenance record does not belong to you.")
 
         with open('Maintenance.txt','w',encoding= 'utf-8') as f:
@@ -177,7 +187,7 @@ def view_avaliability_and_status():
                     continue
                 else:
                     divide = stripped.split(",")
-                    readdata.append(divide)
+                    readdata.append(divide) 
 
             for i in readdata:
                 if i[5].strip().lower() == "booked":
@@ -188,7 +198,7 @@ def view_avaliability_and_status():
                         Avaliable.append(i[1].strip())
 
             if len(Avaliable) == 0:
-                print("Available Rooms: 0")
+                print("Avaliable Rooms: 0")
             else:
                 print(f"Available Rooms: {Avaliable}")
 
@@ -196,21 +206,21 @@ def view_avaliability_and_status():
                 print("Unavailable Rooms: 0")
             else:
                 print(f"Unavailable Rooms: {Unavailable}")
+
+            for i in readdata:
+                print(f"RoomID: {i[1].strip()} | Status: {i[5].strip()}")
                         
     except FileNotFoundError:
         print("Maintenance.txt not found")
     except Exception:
         print("An error occured. Please try again later.")
 
-
-
-
-
-
-
-
-
 if __name__ == "__main__":
-    menu()
+    print("FACILITIES STAFF LOGIN")
+    user =input("Enter Staff ID (S01, S02, ....): ").strip()
+    if user == "":
+        print("StaffID cannot be empty. Please enter a valid StaffID.")
+    else:
+        menu()
 
             
