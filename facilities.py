@@ -33,6 +33,7 @@ def menu():
 
 
 def Maintenance_record():
+    record = []
     status = "Booked"
     roomID = input("Enter RoomID to book for maintenance (eg: R01, R02,...): ").strip()
     try:
@@ -40,11 +41,17 @@ def Maintenance_record():
             for line in f:
                 remove_line = line.strip()
                 separate = remove_line.split(",")
-                if separate[1].strip().lower() == roomID.lower().strip():
-                    if separate[5].strip().lower() == "booked" or separate[5].strip().lower() == "ongoing":
-                        print(f"Room {roomID} is unavaliable for now.")
-                        print(f"Please try again later or choose another room.")
-                        return
+                record.append(separate)
+
+        for i in record:
+            if i[1].strip().lower() == roomID.lower().strip():
+                if i[5].strip().lower() == "booked" or i[5].strip().lower() == "ongoing":
+                    print(f"Room {roomID} is unavaliable for now.")
+                    print(f"Please try again later or choose another room.")
+                    return    
+                elif i[5].strip().lower() == "completed":
+                    record.remove(i)
+                    
     except FileNotFoundError:
         pass
     except Exception:
@@ -63,13 +70,14 @@ def Maintenance_record():
             print("Invalid task choice. Please choose 1 from the 3")
             return
     
-    else:
-        print("Logging in progress...")
-        log = user + "," + roomID + "," + date + "," + task + "," + task_description + "," + status 
-            
+    log = [user, roomID, date, task, task_description, status] 
+    record.append(log)
+ 
     try:
-        with open('Maintenance.txt','a', encoding='utf-8') as f:
-            f.write(f"{log}\n")
+        with open('Maintenance.txt','w', encoding='utf-8') as f:
+            for i in record:
+                f.write(f"{','.join(i)}\n")
+
     except FileNotFoundError:
         print("Maintenance.txt not found")
     except PermissionError:
