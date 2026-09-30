@@ -90,4 +90,3 @@ def validate_login_password(password):
             print("Incorrect password. Please try again.")
 
 
-register_user()
