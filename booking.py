@@ -22,7 +22,7 @@ def booking_menu():
     elif Option_chosen == "3":
         option_3()
     elif Option_chosen == "4":
-        option_4
+        option_4()
     elif Option_chosen == "5":
         pass
 
@@ -54,7 +54,7 @@ def option_3():
     elif option == "2":
         process_extensions()   
     elif option == "3":
-        booking_menu()     
+        return   
 
 def option_4():
     print(
@@ -63,7 +63,14 @@ def option_4():
     "=====================================\n" \
     "1. View Current Bookings\n" \
     "2. View User Booking history\n"
-    )
+    "3. Return\n")
+    option = input("Enter your option: ")
+    if option == "1":
+        view_booking()
+    elif option == "2":
+        booking_history()   
+    elif option == "3":
+        return   
 
 def process_cancellations():
     booking_id = input("Enter the booking ID you are trying to cancel(Type exit to leave): ").strip()
@@ -142,7 +149,6 @@ def extension(bookingid, booking_list):
             f.write(new_list)
         print("Booking Extended Successfully!")
 
-
 def booking():
     try:
         with open("booking.txt", "r") as booking:
@@ -156,28 +162,33 @@ def booking():
         print("File Not Found. Please make a booking first.")
 
 def view_booking():
-    try:
-        with open("booking.txt", "r") as booking:
-            for line in booking:
-                line = line.strip()
-                if not line:
-                    continue
-                existing_booking = line.split(",")
-                print(f"Booking ID: {existing_booking[0]}, Name: {existing_booking[1]}, Date: {existing_booking[2]}")
-    except FileNotFoundError:
-        print("File Not Found. Please make a booking first.")
+    
+    with open ("booking.txt", "r") as f:
+        print(
+            f"{'BookingID':<12}" f"{'Username':<13}" f"{'Date':<15}" f"{'Space':<10}" f"{'Start':<10}" f"{'End':<10}" f"{'Status':<10}")
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            bookings = line.split(",")
+            if bookings[6] != "Cancelled":
+                print(
+                    f"{bookings[0]:<12}" f"{bookings[1]:<13}" f"{bookings[2]:<15}" f"{bookings[3]:<10}" f"{bookings[4]:<10}" f"{bookings[5]:<10}" f"{bookings[6]:<10}")
 
 def booking_history():
+    username = input("Enter the username of the history you are looking for: ")
     try:
         with open("booking.txt", "r") as booking:
+            print(f"{'BookingID':<12}" f"{'Username':<13}" f"{'Date':<15}" f"{'Space':<10}" f"{'Start':<10}" f"{'End':<10}" f"{'Status':<10}")
             for line in booking:
                 line = line.strip()
                 if not line:
                     continue
-                existing_booking = line.split(",")
-                print(f"Booking ID: {existing_booking[0]}, Name: {existing_booking[1]}, Date: {existing_booking[2]}")
+                bookings = line.split(",")
+                if username == bookings[1]:
+                    print(f"{bookings[0]:<12}" f"{bookings[1]:<13}" f"{bookings[2]:<15}" f"{bookings[3]:<10}" f"{bookings[4]:<10}" f"{bookings[5]:<10}" f"{bookings[6]:<10}")
     except FileNotFoundError:
         print("File Not Found. Please make a booking first.")
 
 if __name__ == "__main__":
-    booking_menu()
+    booking_history()
