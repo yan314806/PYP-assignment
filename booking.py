@@ -52,7 +52,7 @@ def option_3():
     if option == "1":
         process_cancellations()
     elif option == "2":
-        process_extention()   
+        process_extensions()   
     elif option == "3":
         booking_menu()     
 
@@ -101,20 +101,47 @@ def cancel(booking_id, booking_list):
             new_list = ",".join(line) + "\n"
             f.write(new_list)
         print("Booking Cancelled Successfully!")
-
     
+def process_extensions():
+    booking_id = input("Enter the booking ID you are trying to approve extention for(Type exit to leave): ").strip()
+    booking_list = []
+    found = False
+    if booking_id.lower() == "exit":
+        return
+    else:
+        with open ("booking.txt", "r") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                bookings = line.split(",")
+                booking_list.append(bookings)
+                if bookings[0] == booking_id:
+                    found = True
+                    print("BookingID Found!")
+            if found is False:
+                print("BookingID Doesn't Exist!")
+                return
+            extension(booking_id, booking_list)
 
-
-
+def extension(bookingid, booking_list):
+    for data in booking_list:
+        if data [0] == bookingid:
+            if data[6] == "Extended":
+                print("BookingID had already been extended!")
+                return
+            elif data [6] == "Extension Requested":
+                data[6] = "Extended"
+            else:
+                print("This booking did not request for extention.")
+                return
+        
     with open ("booking.txt", "w") as f:
-       for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            bookings_new = line.split(",")
-            if booking_id == bookings_new[0]:
-                f.write 
-    
+        for line in booking_list:
+            new_list = ",".join(line) + "\n"
+            f.write(new_list)
+        print("Booking Extended Successfully!")
+
 
 def booking():
     try:
