@@ -172,7 +172,6 @@ def main_menu():
             print("Have a nice day!")
             break
 
-main_menu()
 
 # add_payment()
 # outstanding_payments()

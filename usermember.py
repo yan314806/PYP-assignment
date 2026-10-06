@@ -33,8 +33,16 @@ def check_conflict(space, date, start, end):
 
 def request_booking():
     print("\n===== REQUEST BOOKING =====")
+    Store = []
+    try:
+        file = open("booking.txt", "r")
+        for line in file:
+            Store.append(line.strip())
+        file.close()
+    except:
+        print("Cannot open file")
 
-    booking_id = input("Booking ID: ")
+    booking_id = "B" + str(len(Store) + 1)
     username = input("Username: ")
     date = input("Date (YYYY-MM-DD): ")
     space = input("Desk/Room: ")
@@ -156,6 +164,35 @@ def payment_history():
 
     except:
         print("Cannot open payment file.")
+
+
+def user_menu():
+    while True:
+        print("\n===== USER / MEMBER MENU =====")
+        print("1. View Available Spaces")
+        print("2. Request Booking")
+        print("3. Request Extension")
+        print("4. View Booking History")
+        print("5. View Payment History")
+        print("6. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            view_spaces()
+        elif choice == "2":
+            request_booking()
+        elif choice == "3":
+            request_extension()
+        elif choice == "4":
+            booking_history()
+        elif choice == "5":
+            payment_history()
+        elif choice == "6":
+            print("Exiting User / Member menu.")
+            break
+        else:
+            print("Invalid choice. Please try again.")
 
 
 # Reference: Python Software Foundation. (2025). Input and output.

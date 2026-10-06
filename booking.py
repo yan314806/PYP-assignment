@@ -24,7 +24,7 @@ def booking_menu():
     elif Option_chosen == "4":
         option_4()
     elif Option_chosen == "5":
-        pass
+        return
 
 def option_2():
     print(
