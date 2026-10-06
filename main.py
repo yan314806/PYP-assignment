@@ -3,9 +3,31 @@ import usermember
 import hub_administrator
 
 
-username, password = login.login_user()
+def Welcome_msg():
+    print("""
+=====================================================================
+==            ==  ======  ==        ====    =======  ==   ==  ======
+ ==          ==   ==      ==      ==    ==  ==   ==  === ===  ==
+  ==   ==   ==    ====    ==      ==        ==   ==  == = ==  ====
+   ====  ====     ==      ==      ==    ==  ==   ==  ==   ==  == 
+    ==    ==      ======  =======   ====    =======  ==   ==  ======
+=====================================================================
+""")
+
+def main_menu():
+    while True:
+        print(""
+            "==========================="
+            "Choose from the following options."
+            "1. Hub Administrator"
+            "2. Booking Officer"
+            "3. Member"
+            "4. "
+            
+            
+            )
 
 
-usermember.userMemberMenu(username)
 
-
+if __name__ == "__main__":
+    main_menu()

@@ -36,7 +36,7 @@ def request_booking():
 
     booking_id = input("Booking ID: ")
     username = input("Username: ")
-    date = input("Date: ")
+    date = input("Date (YYYY-MM-DD): ")
     space = input("Desk/Room: ")
     start = input("Start time: ")
     end = input("End time: ")
@@ -158,9 +158,8 @@ def payment_history():
         print("Cannot open payment file.")
 
 
+# Reference: Python Software Foundation. (2025). Input and output.
+# Python 3 documentation. https://docs.python.org/3/tutorial/inputoutput.html
 
-
-
-
-#reference: Python Software Foundation. (2025). Input and output. Python 3 documentation. https://docs.python.org/3/tutorial/inputoutput.html
-#reference: Python Software Foundation. (2025). Built-in types. Python 3 documentation. https://docs.python.org/3/library/stdtypes.html
+# Reference: Python Software Foundation. (2025). Built-in types.
+# Python 3 documentation. https://docs.python.org/3/library/stdtypes.html
