@@ -1,7 +1,5 @@
 option = ""
 status = ""
-print("""
-    STAFF LOGIN""")
 
 def menu():
     while True:
@@ -40,16 +38,18 @@ def Maintenance_record():
         with open('Maintenance.txt','r', encoding='utf-8') as f:
             for line in f:
                 remove_line = line.strip()
+                if remove_line == "":
+                    continue
                 separate = remove_line.split(",")
                 record.append(separate)
 
         for i in record:
-            if i[1].strip().lower() == roomID.lower().strip():
-                if i[5].strip().lower() == "booked" or i[5].strip().lower() == "ongoing":
+            if i[0].strip().lower() == roomID.lower().strip():
+                if i[4].strip().lower() == "booked" or i[4].strip().lower() == "ongoing":
                     print(f"Room {roomID} is unavaliable for now.")
                     print(f"Please try again later or choose another room.")
-                    return   
-                elif i[5].strip().lower() == "completed":
+                    return    
+                elif i[4].strip().lower() == "completed":
                     record.remove(i)
                     
     except FileNotFoundError:
@@ -67,12 +67,12 @@ def Maintenance_record():
         return
     
     if task != "clean" and task != "repair" and task != "it setup":
-            print("Invalid task choice. Please choose 1 from the 3")
-            return
+        print("Invalid task choice. Please choose 1 from the 3")
+        return
     
-    log = [user, roomID, date, task, task_description, status] 
+    log = [roomID, date, task, task_description, status] 
     record.append(log)
- 
+
     try:
         with open('Maintenance.txt','w', encoding='utf-8') as f:
             for i in record:
@@ -103,26 +103,25 @@ def Update_status():
     try:
         with open('Maintenance.txt','r', encoding='utf-8') as f:
             for line in f:
-                    remove_line  = line.strip()
-                    separate = remove_line.split(",")
-                    readtxt.append(separate)
+                remove_line = line.strip()
+                if remove_line == "":
+                    continue
+                separate = remove_line.split(",")
+                readtxt.append(separate)
 
         for i in readtxt:
-            if i[1].strip().lower() == find_lower:
-                if i[0].strip().lower() == user.lower():
-                    new_status= str(input(f"Update your maintenance status for {find} (Booked/Ongoing/Completed): ")).strip().lower()
-                    if new_status == 'booked' or new_status == 'ongoing' or new_status == 'completed':
-                        i[5] = new_status
-                        print("Updated sucessfully")
-                    else:
-                        print("Please enter valid status")
-                        return
+            if i[0].strip().lower() == find_lower:
+                new_status = str(input(f"Update your maintenance status for {find} (Booked/Ongoing/Completed): ")).strip().lower()
+                if new_status == 'booked' or new_status == 'ongoing' or new_status == 'completed':
+                    i[4] = new_status
+                    print("Updated sucessfully")
                 else:
-                        print("Access denied. This maintenance record does not belong to you.")
+                    print("Please enter valid status")
+                    return
 
         with open('Maintenance.txt','w',encoding= 'utf-8') as f:
             for i in readtxt:
-                f.write(f"{','.join(i)}\n" )
+                f.write(f"{','.join(i)}\n")
             
     except FileNotFoundError:
         print("Maintenance.txt not found")
@@ -146,23 +145,25 @@ def Maintenance_report():
     try:
         with open('Maintenance.txt','r', encoding = 'utf-8') as f:
             for i in f:
-                 remove = i.strip()
-                 split = remove.split(",")
-                 readtxt.append(split)
+                remove = i.strip()
+                if remove == "":
+                    continue
+                split = remove.split(",")
+                readtxt.append(split)
 
             for i in readtxt:
                 total += 1
-                if i[5].strip().lower() == "booked":
+                if i[4].strip().lower() == "booked":
                     booked += 1
-                if i[5].strip().lower() == "ongoing":
+                if i[4].strip().lower() == "ongoing":
                     ongoing += 1    
-                if i[5].strip().lower() == "completed":
+                if i[4].strip().lower() == "completed":
                     completed += 1
-                if i[3].strip().lower() == "clean":
+                if i[2].strip().lower() == "clean":
                     clean += 1
-                if i[3].strip().lower() == "repair":
+                if i[2].strip().lower() == "repair":
                     repair += 1
-                if i[3].strip().lower() == "it setup":
+                if i[2].strip().lower() == "it setup":
                     It_setup += 1
         print(f""" 
 Total : {total}
@@ -198,12 +199,12 @@ def view_avaliability_and_status():
                     readdata.append(divide) 
 
             for i in readdata:
-                if i[5].strip().lower() == "booked":
-                        Unavailable.append(i[1].strip())
-                if i[5].strip().lower() == "ongoing":
-                        Unavailable.append(i[1].strip())
-                if i[5].strip().lower() == "completed":
-                        Avaliable.append(i[1].strip())
+                if i[4].strip().lower() == "booked":
+                    Unavailable.append(i[0].strip())
+                if i[4].strip().lower() == "ongoing":
+                    Unavailable.append(i[0].strip())
+                if i[4].strip().lower() == "completed":
+                    Avaliable.append(i[0].strip())
 
             if len(Avaliable) == 0:
                 print("Avaliable Rooms: 0")
@@ -216,7 +217,7 @@ def view_avaliability_and_status():
                 print(f"Unavailable Rooms: {Unavailable}")
 
             for i in readdata:
-                print(f"RoomID: {i[1].strip()} | Status: {i[5].strip()}")
+                print(f"RoomID: {i[0].strip()} | Status: {i[4].strip()}")
                         
     except FileNotFoundError:
         print("Maintenance.txt not found")
@@ -224,11 +225,4 @@ def view_avaliability_and_status():
         print("An error occured. Please try again later.")
 
 if __name__ == "__main__":
-    print("FACILITIES STAFF LOGIN")
-    user =input("Enter Staff ID (S01, S02, ....): ").strip()
-    if user == "":
-        print("StaffID cannot be empty. Please enter a valid StaffID.")
-    else:
-        menu()
-
-            
+    menu()

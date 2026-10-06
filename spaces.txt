@@ -1,0 +1,2 @@
+SP01,desk
+SP02,room

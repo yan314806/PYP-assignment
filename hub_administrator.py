@@ -3,7 +3,7 @@ current_datetime = datetime.now()
 
 def hub_administrator_menu():
     print(
-    "========================\n"
+    "\n========================\n"
     "Hub Administrator Menu\n"
     "========================\n" \
     "Please Choose From the Options Below.\n" \
@@ -16,7 +16,7 @@ def hub_administrator_menu():
     while option != "4":
         if option == "1":
             print(
-            "=====================================\n"
+            "\n=====================================\n"
             "Choose from below options to continue\n"
             "=====================================\n" \
             "1. Add Space\n" \
@@ -45,7 +45,7 @@ def hub_administrator_menu():
         else:
             print("Invalid choice. Please try again.")
         print(
-            "========================\n"
+            "\n========================\n"
             "Hub Administrator Menu\n"
             "========================\n" \
             "Please Choose From the Options Below.\n" \
@@ -89,6 +89,7 @@ def addSpace():
         file = open("spaces.txt", "a")
         file.write(f"{SpaceID},{SpaceType}\n")
         file.close()
+        print(f"Space {SpaceID} of type {SpaceType} added successfully.")
     except:
         print("Cannot open file")
 
@@ -122,6 +123,7 @@ def updateSpace():
             for space in newSpaces:
                 file.write(space + "\n")
             file.close()
+            print(f"Space ID: {SpaceID} updated successfully.")
         except:
             print("Cannot open file")
 
@@ -133,16 +135,14 @@ def removeSpace():
     found = False
 
     # Check each space to see if it is booked
-    for space in spaces:
-        SpaceID, SpaceType = space.split(",")
-        is_booked = False
-        for booking in bookings:
-            booking_data = booking.split(",")
-            if booking_data[3].lower() == SpaceID.lower():
-                if booking_data[2].lower() == str(current_datetime)[0:10]:
-                    if booking_data[6].lower() != "cancelled":
-                        is_booked = True
-                        break
+    is_booked = False
+    for booking in bookings:
+        booking_data = booking.split(",")
+        if booking_data[3].lower() == SpaceIDRemove.lower():
+            if booking_data[2].lower() == str(current_datetime)[0:10]:
+                if booking_data[6].lower() != "cancelled":
+                    is_booked = True
+                    break
 
     if not is_booked:
         # Remove the space from the spaces list
@@ -155,8 +155,10 @@ def removeSpace():
             else:
                 newSpaces.append(line[0] + "," + line[1])
 
-    if not found:
-        print(f"Space ID: {SpaceIDRemove} not found.")
+    if is_booked:
+        print(f"Space ID: {SpaceIDRemove} is currently booked and cannot be removed.")
+    elif not found:
+        print(f"Space ID: {SpaceIDRemove} not found.") 
     else:
         # Write the updated spaces back to the file
         try:
@@ -164,12 +166,13 @@ def removeSpace():
             for line in newSpaces:
                 file.write(line + "\n")
             file.close()
+            print(f"Space ID: {SpaceIDRemove} removed successfully.")
         except:
             print("Cannot open file")
 
 def displayAll():
     print(
-    "=====================================\n"
+    "\n=====================================\n"
     "Choose from below options to continue\n"
     "=====================================\n" \
     "1. View All Spaces\n" \
@@ -236,7 +239,7 @@ def OverallReport():
     HighDemandSpace, HighestCount = high_demand_spaces()
 
     print(
-    "====================\n"
+    "\n====================\n"
     "Overall Report\n"
     "====================\n"
     f"Total Bookings: {total_bookings}\n"
@@ -296,7 +299,7 @@ def available_spaces():
         print("No available spaces.")
     else:
         print(
-            "==================\n"
+            "\n==================\n"
             "Available Spaces:\n"
             "==================\n")
         for space in available:

@@ -1,3 +1,1 @@
-B001,wengy,21-01-2020,D001,13:00,14:00,confirmed
-B001,wengy,21-10-2000,D001,13:00,14:00,confirmed
-B001,wengywwqer,21-11-2000,D001,13:00,14:00,confirmed
+B2,wengy,2020-01-30,desk,13,14,Cancelled

@@ -29,14 +29,15 @@ def role_check():
 def staff_main_menu():
     while True:
         print("""
-            =====================================
-            Choose from the following options.
-            1. Hub Administrator
-            2. Booking Officer
-            3. Accountant
-            4. Maintenance Staff
-            5. Exit
-            =====================================
+=====================================
+Choose from the following options.
+=====================================
+1. Hub Administrator
+2. Booking Officer
+3. Accountant
+4. Maintenance Staff
+5. Exit
+=====================================
             """)
         option = input("Enter Your Option: ")
         if option == "1":
@@ -53,11 +54,12 @@ def staff_main_menu():
 def normal_member_menu():
     while True:
         print("""
-            =====================================
-            Choose from the following options.
-            1. Member
-            2. Exit
-            =====================================
+=====================================
+Choose from the following options.
+=====================================
+1. Member
+2. Exit
+=====================================
             """)
         option = input("Enter Your Option: ")
         if option == "1":
