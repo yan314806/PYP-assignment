@@ -48,7 +48,7 @@ def Maintenance_record():
                 if i[5].strip().lower() == "booked" or i[5].strip().lower() == "ongoing":
                     print(f"Room {roomID} is unavaliable for now.")
                     print(f"Please try again later or choose another room.")
-                    return    
+                    return   
                 elif i[5].strip().lower() == "completed":
                     record.remove(i)
                     
