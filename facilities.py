@@ -1,14 +1,17 @@
 
 def menu():
     while True:
-        print("""    
-        FACILITIES STAFF MENU:
+        print("""
+=============================================== 
+          FACILITIES STAFF MENU:
+===============================================
 
 1.View Room Avaliability & Status
 2.Log Maintaince Record
 3.Update Maintenance Status  
 4.Generate Maintenance Summary
-5.Exit / Sign out
+5.View Space Utilisation & Demand Tracking
+6.Exit 
         """)
 
         option = input("Please enter your option : ").strip()
@@ -22,6 +25,8 @@ def menu():
             case '4': 
                 Maintenance_report()
             case '5':
+                Space_Utilisation_and_Demand_Tracking()
+            case '6':
                 print("Exiting...")
                 break
             case _:
@@ -29,9 +34,15 @@ def menu():
 
 
 def Maintenance_record():
+    print("""
+===============================================
+           LOG MAINTENANCE RECORD
+===============================================
+    """)
+
     record = []
     status = "Booked"
-    roomID = input("Enter RoomID to book for maintenance (eg: R01, R02,...): ").strip()
+    roomID = input("Enter RoomID to book for maintenance (eg: R01, R02,...): ").strip().upper()
     try:
         with open('Maintenance.txt','r', encoding='utf-8') as f:
             for line in f:
@@ -40,7 +51,7 @@ def Maintenance_record():
                     continue
                 separate = remove_line.split(",")
                 record.append(separate)
-
+                
         for i in record:
             if i[0].strip().lower() == roomID.lower().strip():
                 if i[4].strip().lower() == "booked" or i[4].strip().lower() == "ongoing":
@@ -57,7 +68,7 @@ def Maintenance_record():
             
     date = input("Enter date : ").strip()
     task = input("Enter the task needed (Clean/Repair/IT Setup):  ").strip().title()
-    task_description = input("Enter details of the task needed: ").strip()
+    task_description = input("Enter details of the task needed: ").strip().title()
 
     if roomID == "" or date == "" or task == "" or task_description == "":
         print("Please enter all values!")
@@ -69,12 +80,16 @@ def Maintenance_record():
         return
     
     log = [roomID, date, task, task_description, status] 
+    log_history = [roomID, date, task, task_description, status]
     record.append(log)
 
     try:
         with open('Maintenance.txt','w', encoding='utf-8') as f:
             for i in record:
                 f.write(f"{','.join(i)}\n")
+
+        with open('Log_history.txt','a', encoding='utf-8') as f:
+            f.write(f"{','.join(log_history)}\n")
 
     except FileNotFoundError:
         print("Maintenance.txt not found")
@@ -89,7 +104,9 @@ def Maintenance_record():
 
 def Update_status():
     print("""
-    UPDATE ROOM STATUS FOR MAINTENANCE
+==================================================
+        UPDATE ROOM STATUS FOR MAINTENANCE
+==================================================
      """)
     find = input("Enter RoomID to update: ").strip()
     find_lower = find.lower()
@@ -134,7 +151,9 @@ def Update_status():
 
 def Maintenance_report():
     print("""
-    MAINTENANCE SUMMARY REPORT
+================================================
+        MAINTENANCE SUMMARY REPORT
+================================================
 """)
     total = 0
     booked = 0
@@ -186,7 +205,9 @@ Total IT Setup : {It_setup}
 
 def view_avaliability_and_status():
     print("""
-    VIEW ROOM AVAILABILITY & STATUS
+================================================
+      VIEW ROOM AVAILABILITY & STATUS
+================================================
     """)
     readdata = []
     Unavailable = []
@@ -227,6 +248,40 @@ def view_avaliability_and_status():
         print("Maintenance.txt not found")
     except Exception:
         print("An error occured. Please try again later.")
+
+def Space_Utilisation_and_Demand_Tracking():
+    print("""
+=====================================================
+      VIEW SPACE UTILISATION & DEMAND TRACKING
+=====================================================
+    """)
+    counts = {}
+
+    try:
+        with open('Log_history.txt','r', encoding='utf-8') as f:
+            for line in f:
+                stripped = line.strip()
+                if stripped == "":
+                    continue
+                else:
+                    split = stripped.split(",")
+                    roomID = split[0].strip()
+                    counts[roomID] = counts.get(roomID, 0) + 1
+                if len(counts) == 0:
+                    print("No log records found.")
+
+        print("Space Utilisation & Demand Tracking:")
+        for roomID, count in counts.items():
+            print(f"RoomID: {roomID} | Total Maintenance Records: {count}")
+
+    except FileNotFoundError:
+        print("Log_history.txt has not been created yet. Please log a maintenance record first.")
+    except Exception:
+        print("An error occured. Please try again later.")
+
+    
+
+
 
 if __name__ == "__main__":
     menu()
