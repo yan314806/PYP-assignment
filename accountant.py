@@ -8,6 +8,29 @@ def open_file(filename):
     except():
         print("File not found!")
     return record
+    def main_menu():
+    while True:
+        print("1. Add payment.")
+        print("2. View outstanding payment.")
+        print("3. Update payment.")
+        print("4. Generate income summary.")
+        print("5. Generate a monthly financial summary")
+        print("6. Exit")
+        choice=input("Please pick an option: ").strip()
+        if choice=="1":
+            add_payment()
+        elif choice=="2":
+            outstanding_payments()
+        elif choice=="3":
+            update_payments()
+        elif choice=="4":
+            income_summary()
+        elif choice=="5":
+            monthly_financial_summary()
+        elif choice=="6":
+            print("Have a nice day!")
+            break
+
 
 def add_payment():
 #The option to add a new payment for a new client
@@ -149,28 +172,6 @@ def monthly_financial_summary():
     except:
         print("Could not compute the monthly financial summary.")
 
-def main_menu():
-    while True:
-        print("1. Add payment.")
-        print("2. View outstanding payment.")
-        print("3. Update payment.")
-        print("4. Generate income summary.")
-        print("5. Generate a monthly financial summary")
-        print("6. Exit")
-        choice=input("Please pick an option: ").strip()
-        if choice=="1":
-            add_payment()
-        elif choice=="2":
-            outstanding_payments()
-        elif choice=="3":
-            update_payments()
-        elif choice=="4":
-            income_summary()
-        elif choice=="5":
-            monthly_financial_summary()
-        elif choice=="6":
-            print("Have a nice day!")
-            break
 
 
 # add_payment()
