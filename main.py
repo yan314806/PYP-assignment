@@ -20,10 +20,8 @@ def role_check():
     staff = ["staff1", "staff2", "staff3", "staff4", "staff5"]
     username, password = login.login_user()
     if username in staff:
-        print("Welcome, staff!")
         staff_main_menu()
     else:
-        print("Welcome, member!")
         normal_member_menu()
     
 def staff_main_menu():
@@ -67,6 +65,6 @@ Choose from the following options.
         elif option == "2":
             break
 
-if __name__ == "__main__":
-    welcome_msg()
-    role_check()
+
+welcome_msg()
+role_check()
