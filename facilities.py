@@ -1,5 +1,3 @@
-option = ""
-status = ""
 
 def menu():
     while True:
@@ -58,7 +56,7 @@ def Maintenance_record():
         print("An error occured. Please try again later.")
             
     date = input("Enter date : ").strip()
-    task = input("Enter the task needed (Clean/Repair/IT Setup):  ").strip().lower()
+    task = input("Enter the task needed (Clean/Repair/IT Setup):  ").strip().title()
     task_description = input("Enter details of the task needed: ").strip()
 
     if roomID == "" or date == "" or task == "" or task_description == "":
@@ -66,7 +64,7 @@ def Maintenance_record():
         status = "Failed"
         return
     
-    if task != "clean" and task != "repair" and task != "it setup":
+    if task.lower() != "clean" and task.lower() != "repair" and task.lower() != "it setup":
         print("Invalid task choice. Please choose 1 from the 3")
         return
     
@@ -98,7 +96,8 @@ def Update_status():
     if find == "":
         print("Please enter the roomID!")
         return
-    
+
+    exist = False
     readtxt = []
     try:
         with open('Maintenance.txt','r', encoding='utf-8') as f:
@@ -111,13 +110,18 @@ def Update_status():
 
         for i in readtxt:
             if i[0].strip().lower() == find_lower:
+                exist = True
                 new_status = str(input(f"Update your maintenance status for {find} (Booked/Ongoing/Completed): ")).strip().lower()
                 if new_status == 'booked' or new_status == 'ongoing' or new_status == 'completed':
-                    i[4] = new_status
+                    i[4] = new_status.title()
                     print("Updated sucessfully")
                 else:
                     print("Please enter valid status")
                     return
+
+        if not exist:
+            print(f"RoomID {find} hasn't been logged for maintenance yet. Please log it first.")
+            return
 
         with open('Maintenance.txt','w',encoding= 'utf-8') as f:
             for i in readtxt:
