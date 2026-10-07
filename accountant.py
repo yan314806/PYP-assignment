@@ -8,6 +8,7 @@ def open_file(filename):
     except():
         print("File not found!")
     return record
+    
     def main_menu():
     while True:
         print("1. Add payment.")
