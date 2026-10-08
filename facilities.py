@@ -42,7 +42,7 @@ def Maintenance_record():
 
     record = []
     status = "Booked"
-    roomID = input("Enter RoomID to book for maintenance (eg: R01, R02,...): ").strip().upper()
+    roomID = input("Enter RoomID to book for maintenance (eg: R001, R002,...): ").strip().upper()
     try:
         with open('maintenance.txt','r', encoding='utf-8') as f:
             for line in f:
@@ -66,7 +66,7 @@ def Maintenance_record():
     except Exception:
         print("An error occured. Please try again later.")
             
-    date = input("Enter date : ").strip()
+    date = input("Enter date (DD-MM-YYYY) : ").strip()
     task = input("Enter the task needed (Clean/Repair/IT Setup):  ").strip().title()
     task_description = input("Enter details of the task needed: ").strip().title()
 
@@ -166,7 +166,7 @@ def Maintenance_report():
     readtxt = []
 
     try:
-        with open('maintenance.txt','r', encoding = 'utf-8') as f:
+        with open('Maintenance.txt','r', encoding = 'utf-8') as f:
             for i in f:
                 remove = i.strip()
                 if remove == "":
@@ -199,7 +199,7 @@ Total IT Setup : {It_setup}
 """)
 
     except FileNotFoundError:
-        print("maintenance.txt not found")
+        print("Maintenance.txt not found")
     except Exception:
         print("Error ocucured. Try again")
 
@@ -278,8 +278,6 @@ def Space_Utilisation_and_Demand_Tracking():
         print("Log_history.txt has not been created yet. Please log a maintenance record first.")
     except Exception:
         print("An error occured. Please try again later.")
-
-    
 
 
 
