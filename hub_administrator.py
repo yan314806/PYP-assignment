@@ -88,7 +88,7 @@ def addSpace():
     while True:
         newSpaceID = input("Enter space ID: ")
         spaces = ReadData("spaces.txt")
-        price = input("Enter the price")
+        price = input("Enter the price: ")
         SpaceID = []
 
         if newSpaceID == "":
@@ -124,7 +124,7 @@ def addSpace():
         file = open("spaces.txt", "a")
         file.write(f"{newSpaceID},{SpaceType},{price}\n")
         file.close()
-        print(f"Space {newSpaceID} of type {SpaceType} with price RM:{price} added successfully.")
+        print(f"Space {newSpaceID} of type {SpaceType} with price: RM{price} added successfully.")
     except:
         print("Cannot open file")
 
@@ -227,7 +227,8 @@ def updateSpace():
             for space in newSpaces:
                 file.write(space + "\n")
             file.close()
-            print(f"Space ID: {SpaceID} updated successfully.")
+            print(f"Space ID: {SpaceID} updated successfully. Below is new information for {SpaceID}")
+            print(f"Space ID: {newSpaceID}, Space Type: {newSpaceType}, Price: {newPrice}")
         except:
             print("Cannot open file")
 

@@ -1,14 +1,14 @@
-print(
-    "===================================\n"
-    "Accountant operations Menu\n"
-    "===================================" 
-)
 # System header
 File_payments="payment.txt"
 Late_Fee=200
 
 def main_menu():
     while True:
+        print(
+        "===================================\n"
+        "Accountant operations Menu\n"
+        "===================================" 
+    )
         print("\n1. Record new payment.")
         print("2. View outstanding payment(s).")
         print("3. Update payment.")
