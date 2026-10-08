@@ -44,7 +44,7 @@ def Maintenance_record():
     status = "Booked"
     roomID = input("Enter RoomID to book for maintenance (eg: R01, R02,...): ").strip().upper()
     try:
-        with open('Maintenance.txt','r', encoding='utf-8') as f:
+        with open('maintenance.txt','r', encoding='utf-8') as f:
             for line in f:
                 remove_line = line.strip()
                 if remove_line == "":
@@ -84,7 +84,7 @@ def Maintenance_record():
     record.append(log)
 
     try:
-        with open('Maintenance.txt','w', encoding='utf-8') as f:
+        with open('maintenance.txt','w', encoding='utf-8') as f:
             for i in record:
                 f.write(f"{','.join(i)}\n")
 
@@ -92,7 +92,7 @@ def Maintenance_record():
             f.write(f"{','.join(log_history)}\n")
 
     except FileNotFoundError:
-        print("Maintenance.txt not found")
+        print("maintenance.txt not found")
     except PermissionError:
         print("You do not have access")
     except Exception:
@@ -117,7 +117,7 @@ def Update_status():
     exist = False
     readtxt = []
     try:
-        with open('Maintenance.txt','r', encoding='utf-8') as f:
+        with open('maintenance.txt','r', encoding='utf-8') as f:
             for line in f:
                 remove_line = line.strip()
                 if remove_line == "":
@@ -140,12 +140,12 @@ def Update_status():
             print(f"RoomID {find} hasn't been logged for maintenance yet. Please log it first.")
             return
 
-        with open('Maintenance.txt','w',encoding= 'utf-8') as f:
+        with open('maintenance.txt','w',encoding= 'utf-8') as f:
             for i in readtxt:
                 f.write(f"{','.join(i)}\n")
             
     except FileNotFoundError:
-        print("Maintenance.txt not found")
+        print("maintenance.txt not found")
     except Exception:
         print("Failed to update")
 
@@ -166,7 +166,7 @@ def Maintenance_report():
     readtxt = []
 
     try:
-        with open('Maintenance.txt','r', encoding = 'utf-8') as f:
+        with open('maintenance.txt','r', encoding = 'utf-8') as f:
             for i in f:
                 remove = i.strip()
                 if remove == "":
@@ -199,7 +199,7 @@ Total IT Setup : {It_setup}
 """)
 
     except FileNotFoundError:
-        print("Maintenance.txt not found")
+        print("maintenance.txt not found")
     except Exception:
         print("Error ocucured. Try again")
 
@@ -214,7 +214,7 @@ def view_avaliability_and_status():
     Avaliable = []
 
     try:
-        with open('Maintenance.txt','r', encoding='utf-8') as f:
+        with open('maintenance.txt','r', encoding='utf-8') as f:
             for line in f:
                 stripped = line.strip()
                 if stripped == "":
@@ -245,7 +245,7 @@ def view_avaliability_and_status():
                 print(f"RoomID: {i[0].strip()} | Status: {i[4].strip()}")
                         
     except FileNotFoundError:
-        print("Maintenance.txt not found")
+        print("maintenance.txt not found")
     except Exception:
         print("An error occured. Please try again later.")
 

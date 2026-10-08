@@ -148,12 +148,12 @@ def payment_history():
         for line in file:
             data = line.strip().split(",")
 
-            if len(data) >= 8 and data[2].lower() == username.lower():
+            if len(data) >= 9 and data[2].lower() == username.lower():
                 print("Payment ID:", data[0])
                 print("Booking ID:", data[1])
                 print("Paid: RM", data[4])
-                print("Balance: RM", data[5])
-                print("Status:", data[6])
+                print("Balance: RM", data[7])
+                print("Status:", data[8])
                 print()
                 found = True
 

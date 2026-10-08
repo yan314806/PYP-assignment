@@ -61,58 +61,162 @@ def ReadData(fileName):
     try:
         file = open(fileName, "r")
         for line in file:
-            Store.append(line.strip())
+            if line.strip() != "":
+                Store.append(line.strip())
         file.close()
     except:
         print("Cannot open file")
     return Store
 
-def addSpace():
-    SpaceID = input("Enter space ID: ")
-    SpaceType = input("Enter space type(desk/room): ")
-    spaces = ReadData("spaces.txt")
+def SpaceID_Validation(SpaceID):
+    valid = True
+    if SpaceID == "":
+        print("Space ID cannot be empty.")
+        valid = False  
 
-    # Check if the SpaceID already exists
-    for line in spaces:
-        line= line.split(",")
-        if line[0].lower() == f"{SpaceID}".lower():
+    if SpaceID[0].lower() != "r" and SpaceID[0].lower() != "d":
+        print("Invalid Space ID. It should start with 'R' for room or 'D' for desk.")
+        valid = False
+
+    if len(SpaceID) != 4 or not SpaceID[1:].isdigit():
+        print("Invalid Space ID. It should follow the format start with 'R' or 'D' and followed by 3 digits")
+        valid = False
+
+    return valid
+
+def addSpace():
+    while True:
+        newSpaceID = input("Enter space ID: ")
+        spaces = ReadData("spaces.txt")
+        price = input("Enter the price")
+        SpaceID = []
+
+        if newSpaceID == "":
+            print("Space ID cannot be empty")
+            continue
+
+        if not SpaceID_Validation(newSpaceID):
+            continue
+
+        # Check if the SpaceID already exists
+        for line in spaces:
+            line = line.split(",")
+            SpaceID.append(line[0].lower())
+
+        if newSpaceID.lower() in SpaceID:
             print("Space ID already exists.")
-            return
-        
-    # Check if the SpaceType is valid
-    if SpaceType.lower() not in ["desk","room"]:
-        print("Invalid space type. Please enter 'desk' or 'room'.")
-        return
+            continue
+        break   # Exit the loop if the SpaceID is valid
+    while True:
+        if not price.replace('.', '').isdigit():
+            print("Invalid price. Please enter a valid number.")
+            price = input("Enter new price for the space: ")
+            continue
+        break   # Exit the loop if the price is valid
+
+    if newSpaceID[0].lower() == "r":
+        SpaceType = "room"
+    elif newSpaceID[0].lower() == "d":
+        SpaceType = "desk"
 
     # Append the new space to the file
     try:
         file = open("spaces.txt", "a")
-        file.write(f"{SpaceID},{SpaceType}\n")
+        file.write(f"{newSpaceID},{SpaceType},{price}\n")
         file.close()
-        print(f"Space {SpaceID} of type {SpaceType} added successfully.")
+        print(f"Space {newSpaceID} of type {SpaceType} with price RM:{price} added successfully.")
     except:
         print("Cannot open file")
 
 # Update space type
 def updateSpace():
-    SpaceID = input("Enter space ID to update: ")
-    spaces = ReadData("spaces.txt")
     found = False
     newSpaces = []
+    spaces = ReadData("spaces.txt")
+    Dlargest = 0
+    Rlargest = 0
+    for space in spaces:
+        space = space.split(",")
+        SpaceID = space[0].lower()
+        if SpaceID[0] == "d":
+            if int(SpaceID[1:]) > Dlargest:
+                Dlargest = int(SpaceID[1:])
+        else:
+            if int(SpaceID[1:]) > Rlargest:
+                Rlargest = int(SpaceID[1:])
+
+    while True:
+        SpaceID = input("Enter space ID to update: ")
+        SpaceIDList = []
+
+        if SpaceID == "":
+            print("Space ID cannot be empty")
+            continue
+        
+        if not SpaceID_Validation(SpaceID):
+            continue
+
+        # Check if the SpaceID already exists
+        for line in spaces:
+            line = line.split(",")
+            SpaceIDList.append(line[0].lower())
+
+        if SpaceID.lower() not in SpaceIDList:
+            print("Space ID not exists.")
+            continue
+
+        break  # Exit the loop if the SpaceID is valid
 
     for space in spaces:
         space = space.split(",")
         if space[0].lower() == f"{SpaceID}".lower():
             print("Found:", space)
-            newSpaceType = input("Enter new space type(desk/room): ")
-            if newSpaceType.lower() not in ["desk","room"]:
-                print("Invalid space type. Please enter 'desk' or 'room'.")
-                return
-            space[1] = newSpaceType
-            newSpaces.append(space[0] + "," + space[1])
+            option = input("Do you want to update the space type or price? (1 for type, 2 for price, 3 for both): ").strip().lower()
+            while option not in ["1","2","3"]:
+                print("Invalid option. Please choose 1, 2, or 3.")
+                option = input("Do you want to update the space type or price? (1 for type, 2 for price, 3 for both): ").strip().lower()
+            
+            if option == "1":
+                if space[1].lower() == "desk":
+                    newSpaceType = "room"
+                else:
+                    newSpaceType = "desk"
+                if newSpaceType.lower() == "desk":
+                    Dlargest += 1
+                    newSpaceID = "D" + str(Dlargest).zfill(3) # zero padding method
+                else:
+                    Rlargest +=1
+                    newSpaceID = "R" + str(Rlargest).zfill(3) # add 0 to the string until it reaches specific length
+                newPrice = space[2]  # Keep the old price if only updating type
+            elif option == "2":
+                newPrice = input("Enter new price for the space: ")
+                while not newPrice.replace('.', '').isdigit():
+                    print("Invalid price. Please enter a valid number.")
+                    newPrice = input("Enter new price for the space: ")
+                newSpaceType = space[1]  # Keep the old type if only updating price
+                newSpaceID = space[0]
+            elif option == "3":
+                if space[1].lower() == "desk":
+                    newSpaceType = "room"
+                else:
+                    newSpaceType = "desk"
+                if newSpaceType.lower() == "desk":
+                    Dlargest += 1
+                    newSpaceID = "D" + str(Dlargest).zfill(3) # zero padding method
+                else:
+                    Rlargest += 1
+                    newSpaceID = "R" + str(Rlargest).zfill(3) # add 0 to the string until it reaches specific length
+                newPrice = input("Enter new price for the space: ")
+                while not newPrice.replace('.', '').isdigit():
+                    print("Invalid price. Please enter a valid number.")
+                    newPrice = input("Enter new price for the space: ")
+
+            # Update the space with new values
+            newSpaces.append(newSpaceID + "," + newSpaceType + "," + newPrice)
             found = True
+        # If the space ID does not match, keep the original space data
         else:
-            newSpaces.append(space[0] + "," + space[1])
+            newSpaces.append(space[0] + "," + space[1] + "," + space[2])
 
     if not found:
         print(f"Space ID: {SpaceID} not found.")
@@ -128,11 +232,27 @@ def updateSpace():
             print("Cannot open file")
 
 def removeSpace():
-    SpaceIDRemove = input("Enter space ID to remove: ")
     spaces = ReadData("spaces.txt")
     bookings = ReadData("booking.txt")
     newSpaces = []
     found = False
+    while True:
+        SpaceIDRemove = input("Enter space ID to remove: ")
+        SpaceIDList = []
+        if SpaceIDRemove == "":
+            print("Space ID cannot be empty")
+            continue
+        if not SpaceID_Validation(SpaceIDRemove):
+            continue
+        # Check if the SpaceID already exists
+        for line in spaces:
+            line = line.split(",")
+            SpaceIDList.append(line[0].lower())
+
+        if SpaceIDRemove.lower() not in SpaceIDList:
+            print("Space ID not exists.")
+            continue
+        break
 
     # Check each space to see if it is booked
     is_booked = False
@@ -153,7 +273,7 @@ def removeSpace():
                 print(f"Removing {SpaceIDRemove}, {line[1]}")
                 found = True
             else:
-                newSpaces.append(line[0] + "," + line[1])
+                newSpaces.append(line[0] + "," + line[1] + "," + line[2])
 
     if is_booked:
         print(f"Space ID: {SpaceIDRemove} is currently booked and cannot be removed.")
@@ -186,8 +306,8 @@ def displayAll():
         spaces = ReadData("spaces.txt")
         print("All Spaces:")
         for line in spaces:
-            SpaceID, SpaceType = line.split(",")
-            print(f"Space ID: {SpaceID}, Space Type: {SpaceType}")
+            SpaceID, SpaceType, Price = line.split(",")
+            print(f"Space ID: {SpaceID}, Space Type: {SpaceType}, Price: {Price}")
     elif option == "2":
         users = ReadData("users.txt")
         print("All Users:")
@@ -203,9 +323,10 @@ def displayAll():
     elif option == "4":
         payments = ReadData("payment.txt")
         print("All Payments:")
-        for line in payments:
-            PaymentID,BookingID,UserID,TotalFee,AmountPaid,PaymentDate,Balance,Status = line.split(",")
-            print(f"Payment ID: {PaymentID}, Booking ID: {BookingID}, User ID: {UserID}, Total Fee: {TotalFee}, Amount Paid: {AmountPaid}, Payment Date: {PaymentDate}, Balance: {Balance}, Status: {Status}")
+        for i in range(1, len(payments)):  # Skip the header line
+            line = payments[i]
+            PaymentID,BookingID,UserID,TotalFee,AmountPaid,PaymentDate,Payment_Method,Balance,Status = line.split(",")
+            print(f"Payment ID: {PaymentID}, Booking ID: {BookingID}, User ID: {UserID}, Total Fee: {TotalFee}, Amount Paid: {AmountPaid}, Payment Date: {PaymentDate}, Payment Method: {Payment_Method}, Balance: {Balance}, Status: {Status}")
     elif option == "5":
         return
     else:
@@ -215,9 +336,8 @@ def display(filename):
     spaces = ReadData(filename)
     print("All Spaces:")
     for line in spaces:
-        SpaceID, SpaceType = line.split(",")
-        print(f"Space ID: {SpaceID}, Space Type: {SpaceType}")
-    
+        SpaceID, SpaceType, Price = line.split(",")
+        print(f"Space ID: {SpaceID}, Space Type: {SpaceType}, Price: {Price}")
 
 def OverallReport():
     total_bookings = 0
@@ -225,15 +345,16 @@ def OverallReport():
     booking_data = ReadData("booking.txt")
     for booking in booking_data:
         booking = booking.split(",")
-        if booking[6].lower() == "confirmed":  # Assuming "confirmed" is the status for completed bookings
+        if booking[6].lower() == "confirmed": 
             total_bookings += 1
 
     # Read payment data and calculate total revenue
     payment_data = ReadData("payment.txt")
     total_revenue = 0
-    for line in payment_data:
-        line = line.split(",")
-        total_revenue += float(line[4]) #Amount Paid is at index 4
+    for i in range(1, len(payment_data)):
+        line = payment_data[i].split(",")
+        if line[8].lower() == "paid" or line[8].lower() == "partial":  
+            total_revenue += float(line[4]) #Amount Paid is at index 4
 
     # Calculate high demand spaces
     HighDemandSpace, HighestCount = high_demand_spaces()
@@ -274,6 +395,8 @@ def high_demand_spaces():
             if count > HighestCount:
                 HighestCount = count
                 HighDemandSpace = space
+            elif count == HighestCount:
+                HighDemandSpace += f", {space}"  # Append space ID to the string if there's a tie
 
         return HighDemandSpace, HighestCount
 
@@ -283,7 +406,7 @@ def available_spaces():
     available = []
     # Check each space to see if it is booked
     for space in spaces:
-        SpaceID, SpaceType = space.split(",")
+        SpaceID, SpaceType, Price = space.split(",")
         is_booked = False
         for booking in bookings:
             booking_data = booking.split(",")

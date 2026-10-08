@@ -264,7 +264,7 @@ if __name__=="__main__":
     except FileExistsError:
         pass
         
-main_menu()
+    main_menu()
 
 
 
