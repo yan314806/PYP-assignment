@@ -1,1 +1,1 @@
-B2,wengy,2020-01-30,D001,13,14,Cancelled
+B1,wengy,2020-01-30,D001,13,14,Pending

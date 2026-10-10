@@ -30,52 +30,61 @@ def booking_menu():
             print("\nInvalid option. Please try again.\n")
 
 def option_2():
-    print(
-    "=====================================\n"
-    "Choose from below options to continue\n"
-    "=====================================\n" \
-    "1. Process Desk Bookings\n" \
-    "2. Process Room Bookings\n"
-    "3. Return\n")
-    Option = input("Enter your option: ")
-    if Option == "1":
-        process_desk_bookings()  
-    elif Option == "2":
-        process_room_bookings()
-    elif Option == "3":
-        return
+    while True:
+        print(
+        "=====================================\n"
+        "Choose from below options to continue\n"
+        "=====================================\n" 
+        "1. Process Desk Bookings\n" 
+        "2. Process Room Bookings\n"
+        "3. Return\n")
+        Option = input("Enter your option: ")
+        if Option == "1":
+            process_desk_bookings()  
+        elif Option == "2":
+            process_room_bookings()
+        elif Option == "3":
+            return
+        else:
+            print("\nInvalid option. Please try again.\n")
 
 def option_3():
-    print(
-    "=====================================\n"
-    "Choose from below options to continue\n"
-    "=====================================\n" \
-    "1. Process Cancellations\n" \
-    "2. Process Extension\n"
-    "3. Return\n")
-    option = input("Enter your option: ")
-    if option == "1":
-        process_cancellations()
-    elif option == "2":
-        process_extensions()   
-    elif option == "3":
-        return   
+    while True:
+        print(
+        "=====================================\n"
+        "Choose from below options to continue\n"
+        "=====================================\n" 
+        "1. Process Cancellations\n" 
+        "2. Process Extension\n"
+        "3. Return\n")
+        option = input("Enter your option: ")
+        if option == "1":
+            process_cancellations()
+        elif option == "2":
+            process_extensions()   
+        elif option == "3":
+            return   
+        else:
+            print("\nInvalid option. Please try again.\n")
 
 def option_4():
-    print(
-    "=====================================\n"
-    "Choose from below options to continue\n"
-    "=====================================\n" \
-    "1. View Current Bookings\n" \
-    "2. View User Booking History\n"
-    "3. Return\n")
-    option = input("Enter your option: ")
-    if option == "1":
-        view_booking()
-    elif option == "2":
-        booking_history()   
-    elif option == "3":
-        return   
+    while True:
+        print(
+        "=====================================\n"
+        "Choose from below options to continue\n"
+        "=====================================\n" 
+        "1. View Current Bookings\n" 
+        "2. View User Booking History\n"
+        "3. Return\n")
+        option = input("Enter your option: ")
+        if option == "1":
+            view_booking()
+        elif option == "2":
+            booking_history()   
+        elif option == "3":
+            return   
+        else:
+            print("\nInvalid option. Please try again.\n")
 
 def process_cancellations():
     booking_id = input("Enter the booking ID you are trying to cancel(Type exit to leave): ").strip().upper()
@@ -94,12 +103,12 @@ def process_cancellations():
                     booking_list.append(bookings)
                     if bookings[0] == booking_id:
                         found = True
-                        print("BookingID Found!")
+                        print("\nBookingID Found!\n")
                 if found is False:
-                    print("BookingID Doesn't Exist!")
+                    print("\nBookingID Doesn't Exist!\n")
                     return
         except FileNotFoundError:
-            print("File Not Found. No booking has ever been made.")
+            print("\nFile Not Found. No booking has ever been made.\n")
             return
         cancel(booking_id, booking_list)
 
@@ -107,7 +116,7 @@ def cancel(booking_id, booking_list):
     for data in booking_list:
         if data[0] == booking_id:
             if data[6] == "Cancelled":
-                print("BookingID is already cancelled!")
+                print("\nBookingID is already cancelled!\n")
                 return
             else:
                 data[6] = "Cancelled"
@@ -116,7 +125,7 @@ def cancel(booking_id, booking_list):
         for line in booking_list:
             new_list = ",".join(line) + "\n"
             f.write(new_list)
-        print("Booking Cancelled Successfully!")
+        print("\nBooking Cancelled Successfully!\n")
     
 def process_extensions():
     booking_id = input("Enter the booking ID you are trying to approve extension for(Type exit to leave): ").strip().upper()
@@ -137,10 +146,10 @@ def process_extensions():
                         found = True
                         print("BookingID Found!")
                 if found is False:
-                    print("BookingID Doesn't Exist!")
+                    print("\nBookingID Doesn't Exist!\n")
                     return
         except FileNotFoundError:
-            print("File Not Found. No booking has ever been made.")
+            print("\nFile Not Found. No booking has ever been made.\n")
             return
         extension(booking_id, booking_list)
 
@@ -148,19 +157,19 @@ def extension(bookingid, booking_list):
     for data in booking_list:
         if data [0] == bookingid:
             if data[6] == "Extended":
-                print("BookingID had already been extended!")
+                print("\nBookingID had already been extended!\n")
                 return
             elif data [6] == "Extension Requested":
                 data[6] = "Extended"
             else:
-                print("This booking did not request for extension.")
+                print("\nThis booking did not request for extension.\n")
                 return
         
     with open ("booking.txt", "w") as f:
         for line in booking_list:
             new_list = ",".join(line) + "\n"
             f.write(new_list)
-        print("Booking Extended Successfully!")
+        print("\nBooking Extended Successfully!\n")
 
 def view_booking():
     try:
@@ -218,13 +227,13 @@ def process_desk_bookings():
                         found = True
                         print("BookingID Found!")
                         if bookings[3][0].lower() != "d":
-                            print("This is not a desk booking. Please use the room booking option.")
+                            print("\nThis is not a desk booking. Please use the room booking option.\n")
                             return
                 if found is False:
-                    print("BookingID Doesn't Exist!")
+                    print("\nBookingID Doesn't Exist!\n")
                     return
         except FileNotFoundError:
-            print("File Not Found. No booking has ever been made.")
+            print("\nFile Not Found. No booking has ever been made.\n")
             return
         confirmed(booking_id, booking_list)
 
@@ -247,13 +256,13 @@ def process_room_bookings():
                         found = True
                         print("BookingID Found!")
                         if bookings[3][0].lower() != "r":
-                            print("This is not a room booking. Please use the desk booking option.")
+                            print("\nThis is not a room booking. Please use the desk booking option.\n")
                             return
                 if found is False:
-                    print("BookingID Doesn't Exist!")
+                    print("\nBookingID Doesn't Exist!\n")
                     return
         except FileNotFoundError:
-            print("File Not Found. No booking has ever been made.")
+            print("\nFile Not Found. No booking has ever been made.\n")
             return
         confirmed(booking_id, booking_list)
 
@@ -261,19 +270,19 @@ def confirmed(bookingid, booking_list):
     for data in booking_list:
         if data [0] == bookingid:
             if data[6] == "Confirmed":
-                print("BookingID had already been confirmed!")
+                print("\nBookingID had already been confirmed!\n")
                 return
             elif data [6] == "Pending":
                 data[6] = "Confirmed"
             else:
-                print("This booking does not have a pending status. Make sure your bookingID is correct.")
+                print("\nThis booking does not have a pending status. Make sure your bookingID is correct.\n")
                 return
             
     with open ("booking.txt", "w") as f:
         for line in booking_list:
             new_list = ",".join(line) + "\n"
             f.write(new_list)
-        print("Booking confirmed Successfully!")
+        print("\nBooking confirmed Successfully!\n")
 
 if __name__ == "__main__":
     booking_menu()
