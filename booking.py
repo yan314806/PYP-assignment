@@ -99,7 +99,7 @@ def process_cancellations():
                     print("BookingID Doesn't Exist!")
                     return
         except FileNotFoundError:
-            print("File Not Found. No booking has been ever made.")
+            print("File Not Found. No booking has ever been made.")
             return
         cancel(booking_id, booking_list)
 
@@ -140,7 +140,7 @@ def process_extensions():
                     print("BookingID Doesn't Exist!")
                     return
         except FileNotFoundError:
-            print("File Not Found. No booking has been ever made.")
+            print("File Not Found. No booking has ever been made.")
             return
         extension(booking_id, booking_list)
 
@@ -176,7 +176,7 @@ def view_booking():
                     print(
                         f"{bookings[0]:<12}" f"{bookings[1]:<13}" f"{bookings[2]:<15}" f"{bookings[3]:<10}" f"{bookings[4]:<10}" f"{bookings[5]:<10}" f"{bookings[6]:<10}")
     except FileNotFoundError:
-        print("File Not Found. No booking has been ever made.")
+        print("File Not Found. No booking has ever been made.")
         return
 
 def booking_history():
@@ -196,7 +196,7 @@ def booking_history():
             if not found:
                 print("No booking history found for this user.")
     except FileNotFoundError:
-        print("File Not Found. No booking has been ever made.")
+        print("File Not Found. No booking has ever been made.")
         return
 
 def process_desk_bookings():
@@ -224,7 +224,7 @@ def process_desk_bookings():
                     print("BookingID Doesn't Exist!")
                     return
         except FileNotFoundError:
-            print("File Not Found. No booking has been ever made.")
+            print("File Not Found. No booking has ever been made.")
             return
         confirmed(booking_id, booking_list)
 
@@ -253,7 +253,7 @@ def process_room_bookings():
                     print("BookingID Doesn't Exist!")
                     return
         except FileNotFoundError:
-            print("File Not Found. No booking has been ever made.")
+            print("File Not Found. No booking has ever been made.")
             return
         confirmed(booking_id, booking_list)
 
