@@ -67,7 +67,7 @@ def option_4():
     "Choose from below options to continue\n"
     "=====================================\n" \
     "1. View Current Bookings\n" \
-    "2. View User Booking history\n"
+    "2. View User Booking History\n"
     "3. Return\n")
     option = input("Enter your option: ")
     if option == "1":
