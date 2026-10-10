@@ -2,29 +2,32 @@ import login
 
 
 def booking_menu():
-    print(
-    "========================\n"
-    "Booking Coordinator Menu\n"
-    "========================\n" \
-    "Please Choose From the options below.\n" \
-    "1. Register new users\n" \
-    "2. Process desk and room bookings\n" \
-    "3. Process cancellations and extensions\n" \
-    "4. View current bookings and user booking history\n"
-    "5. Return to Main Menu\n")
-    
-    Option_chosen = input("Enter your option: ")
-    
-    if Option_chosen == "1":
-        login.register_user()
-    elif Option_chosen == "2":
-        option_2()
-    elif Option_chosen == "3":
-        option_3()
-    elif Option_chosen == "4":
-        option_4()
-    elif Option_chosen == "5":
-        return
+    while True:
+        print(
+        "========================\n"
+        "Booking Coordinator Menu\n"
+        "========================\n" \
+        "Please Choose From the options below.\n" \
+        "1. Register new users\n" \
+        "2. Process desk and room bookings\n" \
+        "3. Process cancellations and extensions\n" \
+        "4. View current bookings and user booking history\n"
+        "5. Return to Main Menu\n")
+        
+        Option_chosen = input("Enter your option: ")
+        
+        if Option_chosen == "1":
+            login.register_user()
+        elif Option_chosen == "2":
+            option_2()
+        elif Option_chosen == "3":
+            option_3()
+        elif Option_chosen == "4":
+            option_4()
+        elif Option_chosen == "5":
+            return
+        else:
+            print("\nInvalid option. Please try again.\n")
 
 def option_2():
     print(
