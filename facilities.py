@@ -1,4 +1,3 @@
-
 def menu():
     while True:
         print("""
@@ -39,12 +38,40 @@ def Maintenance_record():
            LOG MAINTENANCE RECORD
 ===============================================
     """)
-
+    exist_room =[]
     record = []
     status = "Booked"
     roomID = input("Enter RoomID to book for maintenance (eg: R001, R002,...): ").strip().upper()
+    exist = False
+    
     try:
-        with open('maintenance.txt','r', encoding='utf-8') as f:
+        with open('spaces.txt','r', encoding='utf-8') as f:
+            for line in f:
+                remove_line = line.strip()
+                if remove_line == "":
+                    continue
+                separate = remove_line.split(",")
+                exist_room.append(separate)
+
+            if len(exist_room) == 0:
+                            print("No rooms found in spaces.txt. Please add rooms first.")
+                            return
+            
+            for i in exist_room:
+                if i[0].strip().lower() == roomID.lower().strip():
+                    exist = True
+                    break
+            
+            if not exist:
+                print(f"Room {roomID} does not exist. Please enter a valid RoomID.")
+                return
+            
+    except FileNotFoundError:
+        print('spaces.txt not found')
+    except Exception:
+        print("An error occured. Please try again later.")
+    try:
+        with open('Maintenance.txt','r', encoding='utf-8') as f:
             for line in f:
                 remove_line = line.strip()
                 if remove_line == "":
@@ -66,7 +93,7 @@ def Maintenance_record():
     except Exception:
         print("An error occured. Please try again later.")
             
-    date = input("Enter date (DD-MM-YYYY) : ").strip()
+    date = input("Enter date : ").strip()
     task = input("Enter the task needed (Clean/Repair/IT Setup):  ").strip().title()
     task_description = input("Enter details of the task needed: ").strip().title()
 
@@ -84,7 +111,7 @@ def Maintenance_record():
     record.append(log)
 
     try:
-        with open('maintenance.txt','w', encoding='utf-8') as f:
+        with open('Maintenance.txt','w', encoding='utf-8') as f:
             for i in record:
                 f.write(f"{','.join(i)}\n")
 
@@ -92,7 +119,7 @@ def Maintenance_record():
             f.write(f"{','.join(log_history)}\n")
 
     except FileNotFoundError:
-        print("maintenance.txt not found")
+        print("Maintenance.txt not found")
     except PermissionError:
         print("You do not have access")
     except Exception:
@@ -117,7 +144,7 @@ def Update_status():
     exist = False
     readtxt = []
     try:
-        with open('maintenance.txt','r', encoding='utf-8') as f:
+        with open('Maintenance.txt','r', encoding='utf-8') as f:
             for line in f:
                 remove_line = line.strip()
                 if remove_line == "":
@@ -132,6 +159,7 @@ def Update_status():
                 if new_status == 'booked' or new_status == 'ongoing' or new_status == 'completed':
                     i[4] = new_status.title()
                     print("Updated sucessfully")
+                    break
                 else:
                     print("Please enter valid status")
                     return
@@ -140,12 +168,12 @@ def Update_status():
             print(f"RoomID {find} hasn't been logged for maintenance yet. Please log it first.")
             return
 
-        with open('maintenance.txt','w',encoding= 'utf-8') as f:
+        with open('Maintenance.txt','w',encoding= 'utf-8') as f:
             for i in readtxt:
                 f.write(f"{','.join(i)}\n")
             
     except FileNotFoundError:
-        print("maintenance.txt not found")
+        print("Maintenance.txt not found")
     except Exception:
         print("Failed to update")
 
@@ -212,9 +240,27 @@ def view_avaliability_and_status():
     readdata = []
     Unavailable = []
     Avaliable = []
-
+    all = []
     try:
-        with open('maintenance.txt','r', encoding='utf-8') as f:
+        with open('spaces.txt','r', encoding='utf-8') as f:
+            for line in f:
+                stripped = line.strip()
+                if stripped == "":
+                    continue
+                else:
+                    divide = stripped.split(",")
+                    all.append(divide)
+
+                if len(all) == 0:
+                    print("No rooms found in spaces.txt. Please add rooms first.")
+                    return
+
+    except FileNotFoundError:
+        print("spaces.txt not found")
+    except Exception:
+        print("An error occured. Please try again later.")
+    try:
+        with open('Maintenance.txt','r', encoding='utf-8') as f:
             for line in f:
                 stripped = line.strip()
                 if stripped == "":
@@ -230,9 +276,13 @@ def view_avaliability_and_status():
                     Unavailable.append(i[0].strip())
                 if i[4].strip().lower() == "completed":
                     Avaliable.append(i[0].strip())
+                    
+            for i in all:
+                if i[0].strip() not in Unavailable and i[0].strip() not in Avaliable:
+                    Avaliable.append(i[0].strip())
 
             if len(Avaliable) == 0:
-                print("Avaliable Rooms: 0")
+                print("Available Rooms: 0")
             else:
                 print(f"Available Rooms: {Avaliable}")
 
@@ -245,7 +295,7 @@ def view_avaliability_and_status():
                 print(f"RoomID: {i[0].strip()} | Status: {i[4].strip()}")
                         
     except FileNotFoundError:
-        print("maintenance.txt not found")
+        print("Maintenance.txt not found")
     except Exception:
         print("An error occured. Please try again later.")
 
@@ -278,7 +328,6 @@ def Space_Utilisation_and_Demand_Tracking():
         print("Log_history.txt has not been created yet. Please log a maintenance record first.")
     except Exception:
         print("An error occured. Please try again later.")
-
 
 
 if __name__ == "__main__":
