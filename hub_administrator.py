@@ -169,7 +169,7 @@ def updateSpace():
 
     for space in spaces:
         space = space.split(",")
-        if space[0].lower() == f"{SpaceID}".lower():
+        if space[0].lower() == SpaceID.lower():
             print("Found:", space)
             option = input("Do you want to update the space type or price? (1 for type, 2 for price, 3 for both): ").strip().lower()
             while option not in ["1","2","3"]:
