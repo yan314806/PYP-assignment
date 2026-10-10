@@ -6,7 +6,7 @@ print(
 # System header
 File_payments="payment.txt"
 Booking_payments="booking.txt"
-User_payments="user.txt"
+User_payments="users.txt"
 Late_Fee=200
 
 def main_menu():
@@ -76,7 +76,7 @@ def check_booking_id(booking_id):
 def check_user_id(user_id):
     #Checks if the user ID already exists in the user.txt file
     try:
-        with open ("user.txt","r") as file:
+        with open ("users.txt","r") as file:
             file.readline()
             for line in file:
                 data=line.strip().split(",")
