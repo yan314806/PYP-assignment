@@ -240,7 +240,25 @@ def view_avaliability_and_status():
     readdata = []
     Unavailable = []
     Avaliable = []
+    all = []
+    try:
+        with open('spaces.txt','r', encoding='utf-8') as f:
+            for line in f:
+                stripped = line.strip()
+                if stripped == "":
+                    continue
+                else:
+                    divide = stripped.split(",")
+                    all.append(divide)
 
+                if len(all) == 0:
+                    print("No rooms found in spaces.txt. Please add rooms first.")
+                    return
+
+    except FileNotFoundError:
+        print("spaces.txt not found")
+    except Exception:
+        print("An error occured. Please try again later.")
     try:
         with open('Maintenance.txt','r', encoding='utf-8') as f:
             for line in f:
@@ -258,9 +276,13 @@ def view_avaliability_and_status():
                     Unavailable.append(i[0].strip())
                 if i[4].strip().lower() == "completed":
                     Avaliable.append(i[0].strip())
+                    
+            for i in all:
+                if i[0].strip() not in Unavailable and i[0].strip() not in Avaliable:
+                    Avaliable.append(i[0].strip())
 
             if len(Avaliable) == 0:
-                print("Avaliable Rooms: 0")
+                print("Available Rooms: 0")
             else:
                 print(f"Available Rooms: {Avaliable}")
 
