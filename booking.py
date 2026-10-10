@@ -6,11 +6,11 @@ def booking_menu():
         print(
         "========================\n"
         "Booking Coordinator Menu\n"
-        "========================\n" \
-        "Please Choose From the options below.\n" \
-        "1. Register new users\n" \
-        "2. Process desk and room bookings\n" \
-        "3. Process cancellations and extensions\n" \
+        "========================\n" 
+        "Please Choose From the options below.\n" 
+        "1. Register new users\n" 
+        "2. Process desk and room bookings\n" 
+        "3. Process cancellations and extensions\n" 
         "4. View current bookings and user booking history\n"
         "5. Return to Main Menu\n")
         
