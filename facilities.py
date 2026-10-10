@@ -159,6 +159,7 @@ def Update_status():
                 if new_status == 'booked' or new_status == 'ongoing' or new_status == 'completed':
                     i[4] = new_status.title()
                     print("Updated sucessfully")
+                    break
                 else:
                     print("Please enter valid status")
                     return
