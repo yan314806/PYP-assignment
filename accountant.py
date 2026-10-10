@@ -1,14 +1,16 @@
+print(
+    "===================================\n"
+    "Accountant operations Menu\n"
+    "===================================" 
+)
 # System header
 File_payments="payment.txt"
+Booking_payments="booking.txt"
+User_payments="user.txt"
 Late_Fee=200
 
 def main_menu():
     while True:
-        print(
-        "===================================\n"
-        "Accountant operations Menu\n"
-        "===================================" 
-    )
         print("\n1. Record new payment.")
         print("2. View outstanding payment(s).")
         print("3. Update payment.")
@@ -45,6 +47,45 @@ def open_file(filename):
         print("File not found!")
     return record
 
+def check_payment_id(payment_id):
+    #Checks if the payment ID already exists in the payment.txt file
+    try:
+        with open ("payment.txt","r") as file:
+            file.readline()
+            for line in file:
+                data=line.strip().split(",")
+                if data[0]==payment_id:
+                    return True
+    except FileNotFoundError:
+        pass
+    return False
+
+def check_booking_id(booking_id):
+    #Checks if the booking ID already exists in the booking.txt file
+    try:
+        with open ("booking.txt","r") as file:
+            file.readline()
+            for line in file:
+                data=line.strip().split(",")
+                if data[0]==booking_id:
+                    return True
+    except FileNotFoundError:
+        pass
+    return False
+
+def check_user_id(user_id):
+    #Checks if the user ID already exists in the user.txt file
+    try:
+        with open ("user.txt","r") as file:
+            file.readline()
+            for line in file:
+                data=line.strip().split(",")
+                if data[0]==user_id:
+                    return True
+    except FileNotFoundError:
+        pass
+    return False
+
 def record_payment():
     print(
         "\n===============================\n"
@@ -52,26 +93,34 @@ def record_payment():
         "==============================="
     )
 #The option to add a new payment for a new client
-# Asks user to input important details for record keeping 
-    PaymentID=input("Please enter your Payment ID: ")
-    BookingID=input("Please enter booking ID: ")
-    UserID=input("Please enter user ID: ")
-
+#Asks user to input important details for record keeping 
+    payment_id=input("Please enter your Payment ID: ")
+    if check_payment_id(payment_id):
+        print("Payment ID already exists.")
+        return
+    booking_id=input("Please enter booking ID: ")
+    if not check_booking_id(booking_id):
+        print("Invalid booking ID.")
+        return
+    user_id=input("Please enter user ID: ")
+    if not check_user_id(user_id):
+        print("Invalid user ID.")
+        return
     try:
-        TotalFee=float(input("Please enter total fee: "))
-        AmountPaid=float(input("Please enter amount paid: "))
+        total_fee=float(input("Please enter total fee: "))
+        amount_paid=float(input("Please enter amount paid: "))
         #float() converts strings to numbers for comparison
-        if TotalFee <=0 or AmountPaid<0:
+        if total_fee <=0 or amount_paid<0:
             print("Amount entered is invalid.")
             return
-        if AmountPaid>TotalFee:
+        if amount_paid>total_fee:
             print("Amount paid cannot be greater that the total.")
             return
     except ValueError:
         print("Invalid number.")
         return
     
-    PaymentDate=input("Please enter payment date (YYYY-MM-DD): ")
+    payment_date=input("Please enter payment date (YYYY-MM-DD): ")
     methods={"1": "Cash", "2": "Online Payment", "3": "Credit card", "4": "Bank transfer"}
     print(methods)
     choice=input("Please pick your preffered payment method (1-4): ").strip()
@@ -80,7 +129,7 @@ def record_payment():
         return
     payment_method=methods[choice]
 
-    Balance=(float(TotalFee)-float(AmountPaid))
+    Balance=round(float(total_fee)-float(amount_paid), 2)
     if Balance>0:
         Balance += Late_Fee
         print("A late fee of RM 200 has been added to your balance.")
@@ -89,7 +138,7 @@ def record_payment():
 
     Status="Paid" if Balance==0 else "Partial"
     
-    payment=f"{PaymentID},{BookingID},{UserID},{str(TotalFee)},{str(AmountPaid)},{PaymentDate},{payment_method},{str(Balance)},{Status}" 
+    payment=f"{payment_id},{booking_id},{user_id},{str(total_fee)},{str(amount_paid)},{payment_date},{payment_method},{str(Balance)},{Status}" 
     #Joins the specified data and separates them using commas(CVS)
     try:
         file=open("payment.txt","a")
@@ -141,7 +190,7 @@ def update_payments():
         "====================================="
     )
 #Function to edit an existing payment
-    PaymentID=input("Please enter your Payment ID: ").strip() 
+    payment_id=input("Please enter your Payment ID: ").strip() 
     try:
         file=open("payment.txt","r")
         lines=file.readlines()
@@ -154,7 +203,7 @@ def update_payments():
         #Reads all lines into a list
             data=line.strip().split(",")
 
-            if data[0]==PaymentID:
+            if data[0]==payment_id:
                 found=True
                 Balance=float(data[7])
                 print("Your current balance is: RM ",Balance)
@@ -165,11 +214,14 @@ def update_payments():
                     print("Invalid amount entered.")
                     return
                 
+                if new_amount<=0:
+                    print("Amount cannot be below zero.")
+                    return
                 if new_amount>Balance:
                     print("Amount entered is greater than your balance!")
                     return
 
-                new_balance=Balance-new_amount
+                new_balance=round(Balance-new_amount, 2)
 
                 if new_balance==0:
                     new_status="Paid"
@@ -247,7 +299,7 @@ def monthly_financial_summary():
             #If it matches the selected month it is added to the running monthly summary
                 amount=float(data[4])
                 monthly_summary += amount
-            found=True
+                found=True
         file.close()    
         if found:
             print("Income for ",selected_month,"is: RM ",monthly_summary)
@@ -256,14 +308,14 @@ def monthly_financial_summary():
     except:
         print("Could not compute the monthly financial summary.")
 
+try:
+    with open("payment.txt", "x") as file:
+        file.write("PaymentID,BookingID,UserID,TotalFee,AmountPaid,PaymentDate,PaymentMethod,Balance,Status\n")
+        file.close()
+except FileExistsError:
+    pass
+
 if __name__=="__main__":
-    try:
-        with open("payment.txt", "x") as file:
-            file.write("PaymentID,BookingID,UserID,TotalFee,AmountPaid,PaymentDate,PaymentMethod,Balance,Status\n")
-            file.close()
-    except FileExistsError:
-        pass
-        
     main_menu()
 
 

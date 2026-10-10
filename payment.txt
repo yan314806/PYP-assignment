@@ -1,3 +1,1 @@
-PaymentID,BookingID,username,TotalFee,AmountPaid,PaymentDate,payment_method,Balance,Status
-p001,b001,gothamcity,12600.0,10000.0,2026-10-12,Online Payment,2800.0,Partial
-P002,B002,nooooo,32980.0,22469.0,2026-10-10,Cash,10711.0,Partial
+PaymentID,BookingID,UserID,TotalFee,AmountPaid,PaymentDate,PaymentMethod,Balance,Status
