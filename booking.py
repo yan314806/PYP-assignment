@@ -103,7 +103,7 @@ def process_cancellations():
                     booking_list.append(bookings)
                     if bookings[0] == booking_id:
                         found = True
-                        print("\nBookingID Found!\n")
+                        print("BookingID Found!")
                 if found is False:
                     print("\nBookingID Doesn't Exist!\n")
                     return

@@ -1,1 +1,3 @@
-B1,wengy,2020-01-30,D001,13,14,Pending
+B1,wengy,2000-01-30,room,13:00,18:00,Extended
+B2,wengy,2005-01-30,room,13:00,18:00,Cancelled
+B3,wengy,2015-01-30,room,13:00,14:00,Confirmed
