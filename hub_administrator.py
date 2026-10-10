@@ -269,7 +269,7 @@ def removeSpace():
         # Remove the space from the spaces list
         for i in range(len(spaces)):
             line = spaces[i].split(",")
-            if line[0].lower() == f"{SpaceIDRemove}".lower():
+            if line[0].lower() == SpaceIDRemove.lower():
                 print("Found on line", i + 1, ":", spaces[i])
                 print(f"Removing {SpaceIDRemove}, {line[1]}")
                 found = True
