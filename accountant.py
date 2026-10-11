@@ -1,8 +1,3 @@
-print(
-    "===================================\n"
-    "Accountant operations Menu\n"
-    "===================================" 
-)
 # System header
 File_payments="payment.txt"
 Booking_payments="booking.txt"
