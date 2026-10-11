@@ -1,4 +1,1 @@
 B2,wengy,2020-01-30,D001,13,14,Cancelled
-B3,www,2026-01-24,D002,13,14,confirmed
-B4,gothamcity,2026-05-30,D002,13,14,confirmed
-B5,gothamcity,2026-08-15,R001,13,14,confirmed

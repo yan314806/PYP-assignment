@@ -15,7 +15,7 @@ def menu():
 
         option = input("Please enter your option : ").strip()
         match option:   
-            case '1':
+            case '1':   
                 view_avaliability_and_status()
             case '2': 
                 Maintenance_record()
@@ -316,7 +316,10 @@ def Space_Utilisation_and_Demand_Tracking():
                 else:
                     split = stripped.split(",")
                     roomID = split[0].strip()
-                    counts[roomID] = counts.get(roomID, 0) + 1
+                    if roomID in counts:
+                        counts[roomID] += 1
+                    else:
+                        counts[roomID] = 1
                 if len(counts) == 0:
                     print("No log records found.")
 
