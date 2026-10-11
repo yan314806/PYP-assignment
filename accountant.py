@@ -60,32 +60,6 @@ def check_payment_id(payment_id):
         pass
     return False
 
-def check_booking_id(booking_id):
-    #Checks if the booking ID already exists in the booking.txt file
-    try:
-        with open ("booking.txt","r") as file:
-            file.readline()
-            for line in file:
-                data=line.strip().split(",")
-                if data[0]==booking_id:
-                    return True
-    except FileNotFoundError:
-        pass
-    return False
-
-def check_user_id(user_id):
-    #Checks if the user ID already exists in the user.txt file
-    try:
-        with open ("users.txt","r") as file:
-            file.readline()
-            for line in file:
-                data=line.strip().split(",")
-                if data[0]==user_id:
-                    return True
-    except FileNotFoundError:
-        pass
-    return False
-
 def record_payment():
     print(
         "\n===============================\n"
@@ -97,15 +71,10 @@ def record_payment():
     payment_id=input("Please enter your Payment ID: ")
     if check_payment_id(payment_id):
         print("Payment ID already exists.")
-        return
+
     booking_id=input("Please enter booking ID: ")
-    if not check_booking_id(booking_id):
-        print("Invalid booking ID.")
-        return
     user_id=input("Please enter user ID: ")
-    if not check_user_id(user_id):
-        print("Invalid user ID.")
-        return
+
     try:
         total_fee=float(input("Please enter total fee: "))
         amount_paid=float(input("Please enter amount paid: "))
