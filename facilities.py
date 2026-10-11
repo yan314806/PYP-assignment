@@ -15,7 +15,7 @@ def menu():
 
         option = input("Please enter your option : ").strip()
         match option:   
-            case '1':
+            case '1':   
                 view_avaliability_and_status()
             case '2': 
                 Maintenance_record()
