@@ -1,10 +1,10 @@
 import login
 
 
-def booking_menu():
+def booking_menu(): #booking menu
     while True:
         print(
-        "========================\n"
+        "========================\n" 
         "Booking Coordinator Menu\n"
         "========================\n" 
         "Please Choose From the options below.\n" 
@@ -16,7 +16,7 @@ def booking_menu():
         
         Option_chosen = input("Enter your option: ")
         
-        if Option_chosen == "1":
+        if Option_chosen == "1": #gets input and calls different functions
             login.register_user()
         elif Option_chosen == "2":
             option_2()
