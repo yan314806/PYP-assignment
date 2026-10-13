@@ -54,8 +54,8 @@ def Maintenance_record():
                 exist_room.append(separate)
 
             if len(exist_room) == 0:
-                            print("No rooms found in spaces.txt. Please add rooms first.")
-                            return
+                print("No rooms found in spaces.txt. Please add rooms first.")
+                return
             
             for i in exist_room:
                 if i[0].strip().lower() == roomID.lower().strip():
