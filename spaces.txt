@@ -1,4 +1,5 @@
-R003,room,35
+D003,desk,35
 D002,desk,40
 R002,room,40
 R001,room,25
+R005,room,20

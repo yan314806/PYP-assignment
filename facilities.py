@@ -99,7 +99,6 @@ def Maintenance_record():
 
     if roomID == "" or date == "" or task == "" or task_description == "":
         print("Please enter all values!")
-        status = "Failed"
         return
     
     if task.lower() != "clean" and task.lower() != "repair" and task.lower() != "it setup":
