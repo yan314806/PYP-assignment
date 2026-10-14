@@ -1,7 +1,5 @@
 # System header
 File_payments="payment.txt"
-Booking_payments="booking.txt"
-User_payments="users.txt"
 Late_Fee=200
 
 def main_menu():
